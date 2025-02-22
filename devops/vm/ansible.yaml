@@ -1,0 +1,23 @@
+# used to set up env for playing with packer, terraform to create images for proxmox
+# need to run as root
+- name: Install dependencies for proxmox 
+  hosts: localhost
+  become: true
+  tasks: 
+  - name: Add the HashiCorp GPG key
+    shell: curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+
+  # need to run this command manually, need to figure out syntax
+  # - name: Add the official HashiCorp Linux repository
+  #   ansible.builtin.apt_repository:
+  #     shell:  sudo apt-add-repository -y "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+
+  - name: Install all needed apt packages for project
+    ansible.builtin.apt:
+      pkg:
+      - virtualbox
+      - packer
+      - terraform
+
+  - name: Install Proxmox plugin for packer
+    shell: packer plugins install github.com/hashicorp/proxmox
