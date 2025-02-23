@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: helloworld-gateway
+  namespace: istio-system
+spec:
+  selector:
+    app: istio-ingress # label for istio ingress pod
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-virtualservice
+  namespace: istio-system
+spec:
+  hosts:
+    - "*"  # Should match the Gateway's hosts
+  gateways:
+    - helloworld-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /kiali
+      route:
+        - destination:
+            host: kiali.istio-system.svc.cluster.local  # Replace with your service name
+            port:
+              number: 20001
