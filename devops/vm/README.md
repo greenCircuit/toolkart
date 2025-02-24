@@ -17,3 +17,5 @@ Create Image(packer) -> Deploy Image(terraform) -> Configure VM(ansible)  \
 - need to port forward 8006:8006 from VM to local host, guest IP = vm IP, host ip = 127.0.0.1
 - attached to NAT
 - webrowser 127.0.0.1:8006 
+- need to click all advances setting in virtual box cpu setting so can create vms
+    -   Will get this error otherwise `TASK ERROR: KVM virtualisation configured, but not available. Either disable in VM configuration or enable in BIOS.`

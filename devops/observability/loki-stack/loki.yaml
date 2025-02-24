@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  loki:
+    networks:
+      - observability
+    image: docker.io/grafana/loki:latest
+    ports:
+      - 3100:3100
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yaml
+      
+networks:
+  observability:
+    external: true

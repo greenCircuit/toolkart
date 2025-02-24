@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+
+  loki:
+    image: docker.io/grafana/loki:latest
+    networks:
+      - observability
+    ports:
+      - 3100:3100
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yaml
+
+  promtail:
+    networks:
+      - observability
+    image: docker.io/grafana/promtail:latest
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/promtail-config.yaml
+
+  # grafana:
+  #   networks:
+  #     - observability
+  #   image: docker.io/grafana/grafana
+  #   ports:
+  #     - 3000:3000
+
+networks:
+  observability:
+    external: true
