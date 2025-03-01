@@ -19,3 +19,6 @@ Create Image(packer) -> Deploy Image(terraform) -> Configure VM(ansible)  \
 - webrowser 127.0.0.1:8006 
 - need to click all advances setting in virtual box cpu setting so can create vms
     -   Will get this error otherwise `TASK ERROR: KVM virtualisation configured, but not available. Either disable in VM configuration or enable in BIOS.`
+
+
+    https://ronamosa.io/docs/engineer/LAB/proxmox-packer-vm/
