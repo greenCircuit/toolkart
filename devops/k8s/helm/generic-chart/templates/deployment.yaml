@@ -18,14 +18,20 @@ spec:
         - name: {{ .Values.name }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.imagePullSecrets }}    
           imagePullSecrets:
-          {{- range .Values.imagePullSecrets }}
-            {{ . | quote}}
-            
-          {{-end }}
+            {{- range .Values.imagePullSecrets }}
+              {{ .  }}            
+            {{- end }}
+          {{- end }}
           ports:
-            {{- range .Values.ports }}
-              - name: http
-                containerPort: {{ . | quote }}
-                protocol: TCP
+          {{- range .Values.ports }}
+            - name: http
+              containerPort: {{ . }}
+              protocol: TCP
+          {{- end }}
+          env:
+            {{- range $key, $value :=  .Values.env }}
+            - name: {{$key }}
+              value: {{ $value }}
             {{- end }}

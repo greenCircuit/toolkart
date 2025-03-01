@@ -1,0 +1,60 @@
+---
+# Source: static-site/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: appname-service 
+spec:
+  selector:
+    name: appname
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Source: static-site/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appname 
+  labels:
+    name: appname 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: appname 
+  template:
+    metadata:
+      labels:
+        name: appname 
+    spec:
+      containers:
+        - name: appname 
+          image: "nginx:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            ENV: STAGING
+            user: admin
+---
+# Source: static-site/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: appname-ingress
+
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /my-path
+        pathType: Prefix
+        backend:
+          service:
+            name: appname-service
+            port:
+              number: 80

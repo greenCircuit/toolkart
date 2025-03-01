@@ -1,6 +1,6 @@
 
 # Deployments
-name: appName
+name: appname
 replicaCount: 1
 
 image:
@@ -10,14 +10,24 @@ image:
 
 imagePullSecrets: []
 
-env: {}
+env: 
+  ENV: STAGING
+  user: admin
+
 
 volumes: []
 
-ports: []
-
-
-
+ports: 
+  - 80
 
 # Networking
-service: {}
+service: 
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+ingress: 
+  - path: /my-path
+    pathType: Prefix
+    port: 80
+    service: appname-service
