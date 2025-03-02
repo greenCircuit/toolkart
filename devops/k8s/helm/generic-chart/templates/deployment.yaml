@@ -18,6 +18,13 @@ spec:
         - name: {{ .Values.name }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
           {{- if .Values.imagePullSecrets }}    
           imagePullSecrets:
             {{- range .Values.imagePullSecrets }}
@@ -30,8 +37,23 @@ spec:
               containerPort: {{ . }}
               protocol: TCP
           {{- end }}
+          {{- if .Values.env}}
           env:
             {{- range $key, $value :=  .Values.env }}
             - name: {{$key }}
               value: {{ $value }}
             {{- end }}
+          {{- end }}
+          {{- if .Values.volumes }}    
+          volumeMounts:
+            {{- range .Values.volumes }}
+            - mountPath: {{ .mountPath }}
+              subPath: {{ .subPath }}
+              name: {{ .name }}-volume
+            {{- end }}
+          {{- end }}
+
+      volumes:
+        - name: {{ .Values.name }}-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.name }}-pvc

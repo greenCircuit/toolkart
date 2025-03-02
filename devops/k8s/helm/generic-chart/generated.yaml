@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appname-manual
+  labels:
+    name: appname-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: appname-deploy
+  template:
+    metadata:
+      labels:
+        name: appname-deploy
+    spec:
+      # volumes:
+      #   - name: appname-volume
+      #     persistentVolumeClaim:
+      #       claimName: appname-pvc
+      containers:
+        - name: appname 
+          image: "nginx:latest"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 128m
+            limits:
+              memory: 512Mi
+              cpu: 512m
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: ENV
+              value: STAGING
+            - name: user
+              value: admin    
+          # volumeMounts:
+          #   - mountPath: /mnt/data1
+          #     subPath: data1
+          #     name: appname-volume
