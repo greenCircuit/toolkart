@@ -1,14 +1,56 @@
 # One pv and 
 {{- if .Values.volumes }}
+# using k3s build in pvc
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ .Values.name }}-pvc
+# spec:
+#   resources: 
+#     requests:
+#       storage: {{ .Values.storage.capacity }}
+#   storageClassName: local-path
+#   accessModes:
+#     - ReadWriteOnce
+---
+# using local file system
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.name }}-pvc-host
+  labels:
+    local: {{ .Values.name }}-pvc-host
+spec:
+  capacity:
+    storage: {{ .Values.storage.capacity }}
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: {{ .Values.storage.hostPath }} 
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: In
+          values:
+          - "true" 
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.name }}-pvc
 spec:
-  resources: 
-    requests:
-      storage: {{ .Values.storage.capacity }}
-  storageClassName: local-path
+  selector:
+    matchLabels:
+      local: {{ .Values.name }}-pvc-host
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.storage.capacity }}  # Must match or be less than PV size
+  storageClassName: local-storage
 {{- end }}

@@ -24,11 +24,12 @@ resources:
 # storage 
 volumes: 
   - mountPath: "/mnt/shared-data"
-    subPath: "k3s"  # This points to /var/lib/rancher/k3s/storage/{{ .Values.name }}/data1
+    subPath: "k3s"  # This points to /var/lib/rancher/k3s/storage/subPath
     name: appname # need to match .values.name, cant reference .Values inside forloop, reverences pvc
 
 storage: 
   capacity: "1Gi"  # max size that can be allocated to pv/pvc
+  hostPath: /var/lib/rancher/k3s/storage
 
 # Networking
 ports: 

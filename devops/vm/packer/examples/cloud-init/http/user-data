@@ -1,0 +1,35 @@
+#cloud-config
+autoinstall:
+  version: 1
+  locale: en_US
+  keyboard:
+    layout: us
+  updates: security
+  apt:
+    disable_suites: [security]
+  ssh:
+    install-server: true
+    allow-pw: true
+    disable_root: true
+    ssh_quiet_keygen: true
+    allow_public_ssh_keys: true
+  packages:
+    - qemu-guest-agent
+    - sudo
+  storage:
+    layout:
+      name: direct
+    swap:
+      size: 0
+  user-data:
+    package_upgrade: false
+    timezone: Pacific/Auckland
+    users:
+      - name: rxhackk
+        groups: [adm, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+        ssh_authorized_keys:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDqGjvb1c8rfv2bYNnQaRn8ggOBAUhK5jUhZUTr3dEgZDKl88leX5yBG1RWQOfc/ka/rlv6VrjuwRjy+EB1f98L9bU4JklM+/6iNqka57wrQmWIo852wK7shoDdbz55vIjdcw9S6oVx1EYI39FNlVex0IYbhOlEoh/M1b0s= rxhackk@Computer
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+fJRkfOmJCy1lOwy7q2n+aDaHmqHPfn1opL1VwccRJcrIKYVMFtIq2n9wMNXbs8B4n/7r06EkGGVfhWCeLIGEyDvkCnaoF2BQZ6Se8IdPMlPSBzHoJnotWfzPUJLb1OBiV0xHkL9ZEBpoBxTC7R81wG+MlM2Nqe7yQqP9eHQFBySD84U1VOjnVWw+fBfX74AIArUdAg83gtROQEkwjQhik6+vNISx89fmtXsPpIsS3XOQXKWP9sbBCetLDopTOkDNyIV+v1zqNHcZtSb10BxxTKKr8XGmfmrozPyqWxzJK4qi9HHeAdYxN+gZ45TZVW68hCraC52WlRjYcxv0M9MPcPhhckpYTEwYrkkMPB35Cf3/iASrqDl2M+g+wAt8YPgtu4TmK6fte8SecJLFgbayI8ooqlnZki2Q/fzs6/NErrq4DuIo2QlnoFYVyObJlLlb+0joiVKksJpcpbneoMaHgcCnj6GBXbX8V9fGsJa9lTMaknzTL+gcNkZzwP9kW0c=
