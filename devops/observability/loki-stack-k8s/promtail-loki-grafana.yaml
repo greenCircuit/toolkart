@@ -1,0 +1,79 @@
+
+# installing all helm charts for  
+# helm repo add grafana https://grafana.github.io/helm-charts
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: loki-stack
+  namespace: flux-system
+spec:
+  interval: 600m
+  url: https://grafana.github.io/helm-charts
+---
+# Equivalent to helm upgrade --install loki grafana/loki-stack
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: loki
+  namespace: flux-system
+spec:
+  targetNamespace: observability
+  interval: 600m
+  chart:
+    spec:
+      chart: loki-stack
+      sourceRef:
+        kind: HelmRepository
+        name: loki-stack
+      interval: 600m
+  values:
+    prometheus:
+      enabled: true
+
+    grafana:
+      enabled: true
+      datasources: [] # loki datasource comes as default in this chart
+      adminUser: admin
+      adminPassword: admin
+      dashboards: 
+        default:
+          k8s-logs:
+            gnetId: 15141  # https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
+            revision: 1
+            datasource: Loki
+          # TODO dashboards with multiple data sources
+          # k8s-status:
+          #   gnetId: 15196  # https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
+          #   revision: 3
+          #   datasource: 
+          #     - name: Loki
+          #       type: loki
+          #     - name: Prometheus
+          #       type: prometheus
+      # need to have to .Values.dashboards work
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: "default"
+              orgId: 1
+              folder: ""
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
+
+
+    
+      #  This is required to auto-discover dashboards
+      sidecar:
+        dashboards:
+          enabled: true  #
+          searchNamespace: ALL
+---
