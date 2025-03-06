@@ -59,6 +59,14 @@ spec:
             gnetId: 12250
             revision: 1
             datasource: Prometheus
+          k8s-dashboard:
+            gnetId: 15661
+            revision: 1
+            datasource: Prometheus
+          cluster-summary:
+            gnetId: 8685
+            revision: 1
+            datasource: Prometheus
 
 
 
