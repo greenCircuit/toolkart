@@ -40,21 +40,28 @@ spec:
       datasources: [] # loki datasource comes as default in this chart
       adminUser: admin
       adminPassword: admin
+
       dashboards: 
         default:
-          k8s-logs:
+          k8s-logs-simplified:
             gnetId: 15141  # https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
             revision: 1
             datasource: Loki
-          # TODO dashboards with multiple data sources
-          # k8s-status:
-          #   gnetId: 15196  # https://grafana.com/grafana/dashboards/15141-kubernetes-service-logs/
-          #   revision: 3
-          #   datasource: 
-          #     - name: Loki
-          #       type: loki
-          #     - name: Prometheus
-          #       type: prometheus
+          k3s-metrics:
+            gnetId: 15282 
+            revision: 1
+            datasource: Prometheus
+          flux-metrics:
+            gnetId: 16714 
+            revision: 1
+            datasource: Prometheus
+          trefic-metrics:
+            gnetId: 12250
+            revision: 1
+            datasource: Prometheus
+
+
+
       # need to have to .Values.dashboards work
       dashboardProviders:
         dashboardproviders.yaml:
