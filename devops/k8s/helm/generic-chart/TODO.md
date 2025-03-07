@@ -1,0 +1,4 @@
+- Type of pv create local storage or actual pvc
+- volumes[0].name dynamic
+- multiple pvc and volumes
+- env from secrets

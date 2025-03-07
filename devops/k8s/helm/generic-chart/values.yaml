@@ -13,6 +13,17 @@ env:
   ENV: STAGING
   user: admin
 
+secretEnv: 
+  DB_USER:
+    name: db-secret
+    key: db-username
+  DB_PASSWORD:
+    name: db-secret
+    key: db-password
+
+
+
+
 resources:
   requests:
     cpu: "128m"
@@ -25,7 +36,7 @@ resources:
 volumes: 
   - mountPath: "/mnt/shared-data"
     subPath: "k3s"  # This points to /var/lib/rancher/k3s/storage/subPath
-    name: appname # need to match .values.name, cant reference .Values inside forloop, reverences pvc
+    name: appname # need to match .values.name, cant reference .Values inside forloop, reverences pvc, need to fix it 
 
 storage: 
   capacity: "1Gi"  # max size that can be allocated to pv/pvc

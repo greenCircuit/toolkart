@@ -37,13 +37,26 @@ spec:
               containerPort: {{ . }}
               protocol: TCP
           {{- end }}
-          {{- if .Values.env}}
+
+          {{- if or .Values.env .Values.secretEnv }}
           env:
+            # Chart-based environment variables
             {{- range $key, $value :=  .Values.env }}
             - name: {{$key }}
               value: {{ $value }}
             {{- end }}
-          {{- end }}
+            # Secret-based environment variables
+            {{- range $key, $secret := .Values.secretEnv }}
+            - name: {{ $key }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $secret.name }}
+                  key: {{ $secret.key }}
+            {{- end }}
+            {{- end }}
+            # end of env 
+
+ 
           {{- if .Values.volumes }}    
           volumeMounts:
             {{- range .Values.volumes }}

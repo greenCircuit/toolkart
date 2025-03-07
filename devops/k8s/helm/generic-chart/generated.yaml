@@ -1,23 +1,77 @@
+---
+# Source: static-site/templates/storage.yaml
+# using local file system
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: appname-pvc-host
+  labels:
+    local: appname-pvc-host
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /var/lib/rancher/k3s/storage 
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node-role.kubernetes.io/control-plane
+          operator: In
+          values:
+          - "true"
+---
+# Source: static-site/templates/storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: appname-pvc
+spec:
+  selector:
+    matchLabels:
+      local: appname-pvc-host
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  # Must match or be less than PV size
+  storageClassName: local-storage
+---
+# Source: static-site/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: appname-service 
+spec:
+  selector:
+    name: appname
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Source: static-site/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: appname-manual
+  name: appname 
   labels:
-    name: appname-deploy
+    name: appname 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: appname-deploy
+      name: appname 
   template:
     metadata:
       labels:
-        name: appname-deploy
+        name: appname 
     spec:
-      # volumes:
-      #   - name: appname-volume
-      #     persistentVolumeClaim:
-      #       claimName: appname-pvc
       containers:
         - name: appname 
           image: "nginx:latest"
@@ -33,12 +87,45 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          env:
-            - name: ENV
-              value: STAGING
-            - name: user
-              value: admin    
-          # volumeMounts:
-          #   - mountPath: /mnt/data1
-          #     subPath: data1
-          #     name: appname-volume
+            # end of env    
+          volumeMounts:
+            - mountPath: /mnt/shared-data
+              subPath: k3s
+              name: appname-volume
+
+      volumes:
+        - name: appname-volume
+          persistentVolumeClaim:
+            claimName: appname-pvc
+---
+# Source: static-site/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: appname-ingress
+
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /my-path
+        pathType: Prefix
+        backend:
+          service:
+            name: appname-service
+            port:
+              number: 80
+---
+# Source: static-site/templates/storage.yaml
+# using k3s build in pvc
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: appname-pvc
+# spec:
+#   resources: 
+#     requests:
+#       storage: 1Gi
+#   storageClassName: local-path
+#   accessModes:
+#     - ReadWriteOnce
