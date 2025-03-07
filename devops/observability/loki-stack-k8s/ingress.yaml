@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: observability
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: "web"
+spec:
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: observability-loki-grafana
+              port:
+                number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: observability-loki-grafana-node-port
+  namespace: observability
+spec:
+  type: NodePort  # Change from ClusterIP to NodePort
+  selector:
+    app.kubernetes.io/name: grafana
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 30000  # Expose Grafana on a fixed port (32000)
