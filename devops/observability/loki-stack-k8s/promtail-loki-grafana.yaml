@@ -40,10 +40,6 @@ spec:
       datasources: [] # loki datasource comes as default in this chart
       adminUser: admin
       adminPassword: admin
-      
-      imageRenderer:
-        enables: true
-        grafanaSubPath: "grafana"
 
       dashboards: 
         default:

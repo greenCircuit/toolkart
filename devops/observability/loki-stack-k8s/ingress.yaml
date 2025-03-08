@@ -10,8 +10,8 @@ spec:
   rules:
     - http:
         paths:
-        - path: /
-          pathType: Prefix
+        - path: /grafana
+          pathType: Prefix 
           backend:
             service:
               name: observability-loki-grafana
