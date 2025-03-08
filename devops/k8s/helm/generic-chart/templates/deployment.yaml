@@ -56,17 +56,25 @@ spec:
             {{- end }}
             # end of env 
 
- 
-          {{- if .Values.volumes }}    
+          # all templating for volumes, keep together so one if statement
+          {{- if or .Values.volumes .Values.configData }}    
           volumeMounts:
             {{- range .Values.volumes }}
             - mountPath: {{ .mountPath }}
               subPath: {{ .subPath }}
               name: {{ .name }}-volume
             {{- end }}
-          {{- end }}
+            - mountPath: {{ .Values.configData.path }}
+              name: config-volume
+             
 
       volumes:
+        # attaching volume as pvc
         - name: {{ .Values.name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Values.name }}-pvc
+        # attaching volume that stores config map
+        - name: config-volume
+          configMap:
+            name: {{ .Values.name}}-cm
+          {{- end }}

@@ -13,13 +13,13 @@ env:
   ENV: STAGING
   user: admin
 
-secretEnv: 
-  DB_USER:
-    name: db-secret
-    key: db-username
-  DB_PASSWORD:
-    name: db-secret
-    key: db-password
+secretEnv: {} 
+  # DB_USER:
+  #   name: db-secret
+  #   key: db-username
+  # DB_PASSWORD:
+  #   name: db-secret
+  #   key: db-password
 
 
 
@@ -45,6 +45,15 @@ storage:
 # Networking
 ports: 
   - 80
+
+# Attaching a config as a volume
+configData:
+  path: /tmp/config.yaml
+  configKey: config
+  config:
+    foo: bar
+    test:
+      foo: bar
 
 service: 
   - protocol: TCP

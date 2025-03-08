@@ -1,4 +1,16 @@
 ---
+# Source: static-site/templates/cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: appname-cm
+data:
+    config: |
+    
+      foo: bar
+      test:
+        foo: bar
+---
 # Source: static-site/templates/storage.yaml
 # using local file system
 apiVersion: v1
@@ -87,16 +99,33 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-            # end of env    
+          env:
+            # Chart-based environment variables
+            - name: ENV
+              value: STAGING
+            - name: user
+              value: admin
+            # Secret-based environment variables
+            # end of env 
+
+          # all templating for volumes, keep together so one if statement    
           volumeMounts:
             - mountPath: /mnt/shared-data
               subPath: k3s
               name: appname-volume
+            - mountPath: /tmp/config.yaml
+              name: config-volume
+             
 
       volumes:
+        # attaching volume as pvc
         - name: appname-volume
           persistentVolumeClaim:
             claimName: appname-pvc
+        # attaching volume that stores config map
+        - name: config-volume
+          configMap:
+            name: appname-cm
 ---
 # Source: static-site/templates/ingress.yaml
 apiVersion: networking.k8s.io/v1
