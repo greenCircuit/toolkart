@@ -18,6 +18,9 @@ spec:
         - name: {{ .Values.name }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          # RESOURCES
+          {{- if .Values.resources }}
           resources:
             requests:
               memory: {{ .Values.resources.requests.memory }}
@@ -25,12 +28,17 @@ spec:
             limits:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
+          {{- end }}
+
+          # IMG PULL SECRET
           {{- if .Values.imagePullSecrets }}    
           imagePullSecrets:
             {{- range .Values.imagePullSecrets }}
               {{ .  }}            
             {{- end }}
           {{- end }}
+
+          # PORTS
           ports:
           {{- range .Values.ports }}
             - name: http
@@ -38,6 +46,7 @@ spec:
               protocol: TCP
           {{- end }}
 
+          # ENV VARIABLES
           {{- if or .Values.env .Values.secretEnv }}
           env:
             # Chart-based environment variables
@@ -56,6 +65,7 @@ spec:
             {{- end }}
             # end of env 
 
+          # STORAGE
           # all templating for volumes, keep together so one if statement
           {{- if or .Values.volumes .Values.configData }}    
           volumeMounts:
