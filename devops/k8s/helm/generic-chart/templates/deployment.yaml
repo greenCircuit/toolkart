@@ -18,7 +18,6 @@ spec:
         - name: {{ .Values.name }} 
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-
           # RESOURCES
           {{- if .Values.resources }}
           resources:
@@ -69,22 +68,31 @@ spec:
           # all templating for volumes, keep together so one if statement
           {{- if or .Values.volumes .Values.configData }}    
           volumeMounts:
+            {{- if .Values.volumes }}
             {{- range .Values.volumes }}
             - mountPath: {{ .mountPath }}
               subPath: {{ .subPath }}
-              name: {{ .name }}-volume
+              name: {{ $.Values.name }}-volume
             {{- end }}
-            - mountPath: {{ .Values.configData.path }}
+            {{- end }}
+
+            {{- if .Values.configData }}
+            - mountPath: {{ .Values.configData.path }}              
               name: config-volume
+            {{- end }}
              
 
       volumes:
         # attaching volume as pvc
+        {{- if .Values.volumes }}
         - name: {{ .Values.name }}-volume
           persistentVolumeClaim:
             claimName: {{ .Values.name }}-pvc
         # attaching volume that stores config map
+        {{- end }}
+        {{- if .Values.configData }}
         - name: config-volume
           configMap:
             name: {{ .Values.name}}-cm
           {{- end }}
+        {{- end }}

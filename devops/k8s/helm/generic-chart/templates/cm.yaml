@@ -4,6 +4,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.name }}-cm
 data:
-    {{ .Values.configData.configKey}}: |
+    {{ .Values.configData.configName }}: |
     {{ .Values.configData.config |toYaml | nindent 6}}
 {{- end }}

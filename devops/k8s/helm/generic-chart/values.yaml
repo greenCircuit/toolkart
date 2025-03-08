@@ -21,22 +21,24 @@ secretEnv: {}
   #   name: db-secret
   #   key: db-password
 
+initContainer:
+  enable: false
+  img: busybox
+  cmd: "bin/bash chmod 755 -R /config"
 
 
-
-resources:
-  requests:
-    cpu: "128m"
-    memory: 128Mi
-  limits:
-    cpu: "512m"
-    memory: 512Mi
-
+resources: {}
+  # requests:
+    # cpu: "128m"
+    # memory: 128Mi
+  # limits:
+    # cpu: "512m"
+    # memory: 512Mi
+# 
 # storage 
 volumes: 
   - mountPath: "/mnt/shared-data"
     subPath: "k3s"  # This points to /var/lib/rancher/k3s/storage/subPath
-    name: appname # need to match .values.name, cant reference .Values inside forloop, reverences pvc, need to fix it 
 
 storage: 
   capacity: "1Gi"  # max size that can be allocated to pv/pvc
@@ -47,14 +49,14 @@ ports:
   - 80
 
 # Attaching a config as a volume
-configData:
-  path: /tmp/config.yaml
-  configKey: config
-  config:
-    foo: bar
-    test:
-      foo: bar
-
+configData: {}
+  # path: /tmp/config.yaml
+  # configKey: config
+  # config:
+    # foo: bar
+    # test:
+      # foo: bar
+# 
 service: 
   - protocol: TCP
     port: 80
