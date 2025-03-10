@@ -51,10 +51,10 @@ spec:
             gnetId: 15282 
             revision: 1
             datasource: Prometheus
-          flux-metrics:
-            gnetId: 16714 
-            revision: 1
-            datasource: Prometheus
+          # flux-metrics:
+          #   gnetId: 16714 
+          #   revision: 1
+          #   datasource: Prometheus
           trefic-metrics:
             gnetId: 12250
             revision: 1
@@ -67,6 +67,8 @@ spec:
             gnetId: 8685
             revision: 1
             datasource: Prometheus
+          local-flux:
+            url: https://github.com/greenCircuit/toolkart/blob/main/devops/observability/dashboards/Flux2.json
 
 
 

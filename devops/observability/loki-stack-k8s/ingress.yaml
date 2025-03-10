@@ -1,22 +1,24 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: grafana-ingress
-  namespace: observability
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: "web"
-spec:
-  ingressClassName: traefik
-  rules:
-    - http:
-        paths:
-        - path: /grafana
-          pathType: Prefix 
-          backend:
-            service:
-              name: observability-loki-grafana
-              port:
-                number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+  # name: grafana-ingress
+  # namespace: observability
+  # annotations:
+    # traefik.ingress.kubernetes.io/router.entrypoints: "web"
+    # traefik.http.middlewares.add-foo.addprefix.prefix: "/grafana"
+    # traefik.http.routers.router0.rule: PathPrefix(/grafana)
+# spec:
+  # ingressClassName: traefik
+  # rules:
+    # - http:
+        # paths:
+        # - path: /
+          # pathType: Prefix 
+          # backend:
+            # service:
+              # name: observability-loki-grafana
+              # port:
+                # number: 80
 ---
 apiVersion: v1
 kind: Service
@@ -31,3 +33,30 @@ spec:
     - port: 80
       targetPort: 3000
       nodePort: 30000  # Expose Grafana on a fixed port (32000)
+# ---
+# Traefic way of doing stuff 
+# apiVersion: traefik.io/v1alpha1
+# kind: Middleware
+# metadata:
+  # name: grafana-prefix 
+  # namespace: observability
+# spec:
+  # addPrefix:
+    # prefix: "/grafana"
+# ---
+# apiVersion: traefik.io/v1alpha1
+# kind: IngressRoute
+# metadata:
+  # name: grafana-ingress
+  # namespace: observability
+# spec:
+  # entryPoints:
+    # - web
+  # routes:
+    # - match: Host(`localhost`) && PathPrefix(`/grafana`) 
+      # kind: Rule
+      # services:
+        # - name: observability-loki-grafana
+          # port: 80 
+      # middlewares:
+      #   - name: grafana-prefix
