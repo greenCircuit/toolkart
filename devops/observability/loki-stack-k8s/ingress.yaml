@@ -32,7 +32,7 @@ spec:
   ports:
     - port: 80
       targetPort: 3000
-      nodePort: 30000  # Expose Grafana on a fixed port (32000)
+      nodePort: 31000  # Expose Grafana on a fixed port (32000)
 # ---
 # Traefic way of doing stuff 
 # apiVersion: traefik.io/v1alpha1

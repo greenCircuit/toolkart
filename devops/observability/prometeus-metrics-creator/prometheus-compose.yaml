@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  prometheus:
+    container_name: prometheus-local 
+    image: docker.io/prom/prometheus
+    network_mode: host
+    ports:
+      - 9090:9090
+    # volumes:
+    #   - ./prometheus-config.yaml:/etc/prometheus/prometheus.yml

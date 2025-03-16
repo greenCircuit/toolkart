@@ -1,0 +1,88 @@
+name: frigate-helm
+image: 
+  repository: ghcr.io/blakeblackshear/frigate
+  tag: stable
+  pullPolicy: IfNotPresent
+
+ports:
+  - 5000
+
+service:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+
+ingress:
+  - path: /frigate
+    pathType: Prefix
+    port: 5000
+    service: frigate-helm-svc
+
+secretEnv:
+  FRIGATE_RTSP_PASSWORD:
+    name: frigate-vals
+    key: frigate_pass
+  frigate_user: 
+    name: frigate-vals
+    key: frigate_user
+  frigate_pass: 
+    name: frigate-vals
+    key: frigate_pass
+  frigate_ip: 
+    name: frigate-vals
+    key: frigate_ip
+  frigate_port: 
+    name: frigate-vals
+    key: frigate_port
+
+volumes: 
+  - mountPath: "/media"
+    subPath: "frigate"  # This points to /var/lib/rancher/k3s/storage/subPath
+
+storage: 
+  capacity: "1Gi"  # max size that can be allocated to pv/pvc
+  hostPath: /var/lib/rancher/k3s/storage
+
+configData:
+  path: /tmp
+  configName: config.yaml
+  config:
+    mqtt:
+      enabled: false
+
+    record:
+      enabled: true
+      retain:
+        days: 14
+        mode: all
+      events:
+        retain:
+          default: 30
+          mode: motion
+
+
+    cameras:
+      name_of_your_camera: # <------ Name the camera
+        enabled: true
+        ffmpeg:
+          inputs:
+            
+            - path: "rtsp://{frigate_user}:{frigate_pass}@{frigate_ip}:{frigate_port}" # <----- The stream you want to use for detection
+              roles:
+                - detect
+        detect:
+          enabled: true #
+          width: 1280
+          height: 720
+          fps: 5
+        motion:
+          # Optional: The threshold passed to cv2.threshold to determine if a pixel is different enough to be counted as motion. (default: shown below)
+          # Increasing this value will make motion detection less sensitive and decreasing it will make motion detection more sensitive.
+          # The value should be between 1 and 255.
+          threshold: 30
+          contour_area: 16
+          improve_contrast: 'true'
+          mask:
+            - 0,0.835,0.074,0.678,0.235,0.666,0.442,0.4,0.558,0.395,0.709,0.427,0.787,1,0.506,1,0.144,0.993
+            - 0.244,0.17,0.752,0.247,1,0.314,1,0.219,0.962,0.19,0.905,0.086,0.554,0.049,0.278,0.05
+    version: 0.14
