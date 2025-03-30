@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: loki-stack
+  namespace: flux-system
+spec:
+  install:
+    createNamespace: true
+  targetNamespace: observability 
+  interval: 10m
+  chart:
+    spec:
+      reconcileStrategy: Revision
+      chart: ./k3s/flux-cluster/capability_charts/loki-stack
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 5m
+  values:
+    prometheus:
+      enabled: false
+
+    grafana:
+      enabled: false
+
+    loki:
+      config:
+        auth_enabled: false
+        query_scheduler:
+          max_outstanding_requests_per_tenant: 10000   # use to increase the number of queries can use
+
+
+    
