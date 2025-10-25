@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  grafana:
+    image: docker.io/grafana/grafana
+    network_mode: "host"
+    ports:
+      - 3000:3000
+    volumes:
+    - ./grafana/automatic.yml:/etc/grafana/provisioning/datasources/automatic.yml
+    - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/main.yaml
+    - ./grafana/dashboards:/var/lib/grafana/dashboards

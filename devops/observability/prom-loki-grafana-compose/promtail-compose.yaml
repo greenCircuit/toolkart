@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  promtail:
+    command: 
+    - --config.file=/etc/promtail/config.yml
+    - --server.enable-runtime-reload
+    - --config.expand-env=true
+    image: docker.io/grafana/promtail:latest
+    # user: "0" # Use your current host user's UID or Promtail's non-root UID
+    network_mode: "host"
+    volumes:
+      # -  ~/.local/share/containers/storage/overlay-containers:/containers/storage/overlay-containers
+      - /var/log/syslog:/var/log/syslog:ro
+      - /var/log/journal:/var/log/journal:ro
+      - ./configs/promtail-host-logs.yaml:/etc/promtail/config.yml

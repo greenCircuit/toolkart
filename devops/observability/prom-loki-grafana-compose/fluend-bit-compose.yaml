@@ -1,0 +1,15 @@
+version: "3"
+services:
+  fluent-bit:
+    image: cr.fluentbit.io/fluent/fluent-bit:3.1
+    container_name: fluent-bit
+    network_mode: "host"
+    volumes:
+      - ./configs/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - /var/log/journal:/var/log/journal:ro
+      - /run/log/journal:/run/log/journal:ro
+    environment:
+      - HOSTNAME=my-host
+      # - HOSTNAME=${HOSTNAME:-$(hostname)}
+    privileged: true
+    restart: unless-stopped

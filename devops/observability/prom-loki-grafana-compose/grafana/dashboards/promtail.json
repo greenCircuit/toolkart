@@ -498,7 +498,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "Deployed Promtail Version",
         "fieldConfig": {
@@ -547,7 +547,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -566,7 +566,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "Number of active files.",
         "fieldConfig": {
@@ -614,7 +614,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -633,7 +633,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "Current number of bytes sent. ( Real Time )",
         "fieldConfig": {
@@ -681,7 +681,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -935,7 +935,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -990,7 +990,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "Number of bytes read. - Overtime",
         "fieldConfig": {
@@ -1084,7 +1084,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1103,7 +1103,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "",
         "fieldConfig": {
@@ -1185,7 +1185,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1201,7 +1201,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1216,7 +1216,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "expr": "rate(promtail_read_lines_total{job=~\"$job\", instance=~\"$instance.*\"}[$interval])",
@@ -1230,7 +1230,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "expr": "increase(promtail_read_bytes_total{job=~\"$job\", instance=~\"$instance.*\"}[24h])",
@@ -1283,7 +1283,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "- Encoded: Number of bytes encoded and ready to send.\n- Send: Number of bytes sent. ",
         "fieldConfig": {
@@ -1363,7 +1363,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1378,7 +1378,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "expr": "rate(promtail_sent_bytes_total{job=~\"$job\", instance=~\"$instance.*\"}[$interval])",
@@ -1395,7 +1395,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "",
         "fieldConfig": {
@@ -1500,7 +1500,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1515,7 +1515,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "expr": "increase(promtail_sent_bytes_total{job=~\"$job\", instance=~\"$instance.*\"}[24h])",
@@ -1530,7 +1530,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1545,7 +1545,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "expr": "increase(promtail_encoded_bytes_total{job=~\"$job\", instance=~\"$instance.*\"}[24h])",
@@ -1599,7 +1599,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "- Dropped Bytes: Number of bytes dropped because failed to be sent to the ingester after all retries.\n- Dropped Entries: Number of log entries dropped because failed to be sent to the ingester after all retries.",
         "fieldConfig": {
@@ -1691,7 +1691,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1705,7 +1705,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1723,7 +1723,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "uid": "Prometheus"
         },
         "description": "99th percentile latency",
         "fieldConfig": {
@@ -1800,7 +1800,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "PBFA97CFB590B2093"
+              "uid": "Prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -1912,7 +1912,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
+            "uid": "Prometheus"
           },
           "definition": "label_values(promtail_build_info,job)",
           "description": "Job label from Prometheus datasource.",
@@ -1968,7 +1968,7 @@
           "current": {
             "selected": false,
             "text": "Prometheus",
-            "value": "PBFA97CFB590B2093"
+            "value": "Prometheus"
           },
           "hide": 0,
           "includeAll": false,

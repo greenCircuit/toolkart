@@ -5,10 +5,10 @@ datasources:
     type: prometheus
     access: proxy
     # Access mode - proxy (server in the UI) or direct (browser in the UI).
-    url: http://prometheus:9090
+    url: http://localhost:9090
 
   - name: Loki 
     type: loki 
     access: proxy
     # Access mode - proxy (server in the UI) or direct (browser in the UI).
-    url: http://loki:3100
+    url: http://localhost:3100

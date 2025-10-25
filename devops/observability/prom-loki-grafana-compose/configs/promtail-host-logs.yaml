@@ -1,0 +1,35 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+clients:
+  - url: http://localhost:3100/loki/api/v1/push # Replace with your Loki address
+
+positions:
+  filename: /tmp/positions.yaml
+
+scrape_configs:
+- job_name: journal
+  # This section configures the journal reader
+  journal:
+    path: /var/log/journal
+    max_age: 1h
+  # This section extracts dynamic labels from journal metadata
+  relabel_configs:
+    - source_labels: ['__journal__systemd_unit']
+      target_label: 'unit'
+    - source_labels: ['__journal__transport']
+      target_label: 'transport'
+    - source_labels: ['__journal__priority']
+      target_label: 'priority'
+    - source_labels: ['__journal__syslog_identifier'] 
+      target_label: 'syslog-unit'
+
+# - job_name: syslog
+#   static_configs:
+#   - targets:
+#       - "localhost"
+#     labels:
+#       job: syslog 
+#       app: all
+#       __path__: /var/log/syslog

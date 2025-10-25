@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  prometheus:
+    network_mode: "host"
+    image: docker.io/prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  node-exporter:
+    network_mode: "host"
+    image: quay.io/prometheus/node-exporter:latest
+    ports:
+      - 9200:9100
